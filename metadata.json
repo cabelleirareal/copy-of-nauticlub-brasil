@@ -1,0 +1,8 @@
+{
+  "name": "Copy of NautiClub Brasil",
+  "description": "Uma plataforma institucional moderna e luxuosa para o mercado náutico, oferecendo catálogo de embarcações, inspeções técnicas e consultoria para estaleiros.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
