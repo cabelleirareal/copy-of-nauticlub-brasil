@@ -2,13 +2,11 @@
 
 import React from "react";
 
-const WHATSAPP_NUMBER = "5548999517585";
+const WHATSAPP_NUMBER = "5547989035173";
 
-// Mensagem padrão (fallback)
 const DEFAULT_MESSAGE =
   "Olá, tenho interesse e gostaria de mais informações.";
 
-// Função para gerar link com mensagem opcional
 const generateWhatsAppLink = (message?: string) => {
   const text = encodeURIComponent(message || DEFAULT_MESSAGE);
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
@@ -39,7 +37,6 @@ export default function WhatsAppButton({ message }: WhatsAppButtonProps) {
         hover:scale-110
       "
     >
-      {/* Ícone WhatsApp (SVG nativo, sem dependência externa) */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 32 32"
