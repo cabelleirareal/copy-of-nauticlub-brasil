@@ -1,5 +1,4 @@
 {
-
   "name": "copy-of-nauticlub-brasil",
   "private": true,
   "version": "0.0.0",
@@ -8,11 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite preview --host 0.0.0.0 --port ${PORT:-3000}",
+    "start": "vite preview --host 0.0.0.0 --port ${PORT:-3000}"
   },
   "dependencies": {
-    "react-dom": "^19.2.4",
     "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
