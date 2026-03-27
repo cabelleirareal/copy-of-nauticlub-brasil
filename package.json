@@ -1,4 +1,5 @@
 {
+
   "name": "copy-of-nauticlub-brasil",
   "private": true,
   "version": "0.0.0",
@@ -6,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite preview --host 0.0.0.0 --port ${PORT:-3000}",
+    "preinstall": "node preinstall.js"
   },
   "dependencies": {
     "react-dom": "^19.2.4",
@@ -18,5 +21,8 @@
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
