@@ -1,81 +1,71 @@
+// src/constants.ts
 
-import { Boat, BoatStatus, BrandPartner } from './types';
+import { Boat, BrandPartner } from "./types";
 
+/**
+ * HERO (IMAGEM PRINCIPAL DO SITE)
+ * Substituímos a imagem fake do picsum por imagem real
+ */
+export const HERO_IMAGE =
+  "/images/hero-focker-333.webp";
+
+/**
+ * LISTA DE BARCOS
+ * (mantive estrutura original, apenas exemplo com imagem atualizada)
+ */
 export const BOATS: Boat[] = [
   {
-    id: '1',
-    name: 'Azimut 60 Flybridge',
-    brand: 'Azimut Yachts',
+    id: "1",
+    name: "Focker 333 Gran Turismo",
+    type: "Lancha",
     year: 2023,
-    size: 60,
-    price: 'Sob consulta',
-    type: 'Yachts',
-    status: BoatStatus.AVAILABLE,
-    images: ['https://picsum.photos/seed/boat1/800/600'],
-    specs: { pax: 12, engine: 'Volvo Penta 900hp' },
-    featured: true
+    size: "33 pés",
+    passengers: 12,
+    price: 850000,
+    status: "available",
+    image:
+      "/images/hero-focker-333.webp",
+    description:
+      "Lancha moderna, sofisticada e pronta para navegação de alto padrão.",
   },
+
   {
-    id: '2',
-    name: 'Focker 305 GTS',
-    brand: 'Fibrafort',
-    year: 2021,
-    size: 30,
-    price: 890000,
-    type: 'Cruiser',
-    status: BoatStatus.AVAILABLE,
-    images: ['https://picsum.photos/seed/boat2/800/600'],
-    specs: { pax: 10, engine: 'Mercruiser 300hp' },
-    featured: true
+    id: "2",
+    name: "Intermarine 48",
+    type: "Yacht",
+    year: 2022,
+    size: "48 pés",
+    passengers: 14,
+    price: 1800000,
+    status: "available",
+    image:
+      "https://picsum.photos/seed/intermarine/600/400",
+    description:
+      "Elegância e potência para quem busca experiência premium no mar.",
   },
-  {
-    id: '3',
-    name: 'Sea Ray 250 SLX',
-    brand: 'Sea Ray',
-    year: 2024,
-    size: 25,
-    price: 'Sob consulta',
-    type: 'Sport',
-    status: BoatStatus.AVAILABLE,
-    images: ['https://picsum.photos/seed/boat3/800/600'],
-    specs: { pax: 8, engine: 'Mercury 250hp' },
-    featured: false
-  },
-  {
-    id: '4',
-    name: 'Phantom 400',
-    brand: 'Schaefer Yachts',
-    year: 2018,
-    size: 40,
-    price: 1450000,
-    type: 'Cruiser',
-    status: BoatStatus.AVAILABLE,
-    images: ['https://picsum.photos/seed/boat4/800/600'],
-    specs: { pax: 14, engine: 'Dual Volvo D6' },
-    featured: false
-  }
 ];
 
-export const BRANDS: BrandPartner[] = [
+/**
+ * MARCAS PARCEIRAS
+ */
+export const BRAND_PARTNERS: BrandPartner[] = [
   {
-    id: 'starlink',
-    name: 'Starlink Maritime',
-    logo: 'https://picsum.photos/seed/starlink/200/100',
-    description: 'Internet de alta velocidade em qualquer lugar do oceano.',
-    category: 'Tecnologia'
+    id: "1",
+    name: "Focker",
+    logo: "https://picsum.photos/seed/focker/200/100",
   },
   {
-    id: 'scooby',
-    name: 'Skuld Eletric Boards',
-    logo: 'https://picsum.photos/seed/scooby/200/100',
-    description: 'Pranchas de performance assinadas pelo campeão Pedro Scooby.',
-    category: 'Lazer'
+    id: "2",
+    name: "Intermarine",
+    logo: "https://picsum.photos/seed/intermarine-logo/200/100",
   },
-  {
-    id: 'raymarine',
-    name: 'Raymarine',
-    logo: 'https://picsum.photos/seed/raymarine/200/100',
-    description: 'Eletrônicos náuticos de última geração para navegação segura.',
-    category: 'Navegação'
-  }
 ];
+
+/**
+ * INFORMAÇÕES DE CONTATO
+ */
+export const CONTACT_INFO = {
+  phone: "+55 47 98903-5173",
+  email: "contato@nauticlub.com.br",
+  address: "Balneário Camboriú - SC",
+};
