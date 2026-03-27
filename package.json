@@ -9,7 +9,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "vite preview --host 0.0.0.0 --port ${PORT:-3000}",
-    "preinstall": "node preinstall.js"
   },
   "dependencies": {
     "react-dom": "^19.2.4",
