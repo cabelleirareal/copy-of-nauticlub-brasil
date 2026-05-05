@@ -19,13 +19,13 @@ async function main() {
       name: 'João Corretor',
       phone: '+5511999999999',
       role: 'BROKER',
-      subscriptionTier: 'PRO',
       brokerProfile: {
         create: {
           cnpj: '12.345.678/0001-90',
           licenseNumber: 'CRECI-SP-12345',
           bio: 'Corretor experiente em embarcações de luxo',
           cityRegion: 'São Paulo, SP',
+          subscriptionTier: 'PRO',
         },
       },
     },
@@ -45,7 +45,6 @@ async function main() {
       name: 'Maria Proprietária',
       phone: '+5511988888888',
       role: 'OWNER',
-      subscriptionTier: 'FREE',
     },
   });
 
@@ -62,7 +61,7 @@ async function main() {
       year: 2022,
       size: 33,
       price: 250000,
-      type: 'Yacht',
+      type: 'YACHT',
       status: 'AVAILABLE',
       description: 'Iate de luxo com acabamentos premium',
       location: 'Santos, SP',
@@ -80,7 +79,6 @@ async function main() {
       openToPartnerships: true,
       defaultCommission: 5,
       featured: true,
-      viewCount: 0,
     },
   });
 

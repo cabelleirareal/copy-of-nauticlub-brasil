@@ -23,9 +23,6 @@ export class PartnershipsService {
         partnerBroker: {
           select: { id: true, name: true, avatar: true },
         },
-        listingBroker: {
-          select: { id: true, name: true, avatar: true },
-        },
       },
     });
   }
@@ -53,6 +50,7 @@ export class PartnershipsService {
         partnerBrokerId: dto.partnerBrokerId,
         listingBrokerId: userId,
         status: dto.status || 'PENDING',
+        terms: {},
       },
       include: {
         boat: {

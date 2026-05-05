@@ -2,10 +2,10 @@ import { IsString, IsEnum, IsOptional, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum DealStatus {
-  PENDING = 'PENDING',
   NEGOTIATING = 'NEGOTIATING',
+  CONTRACT = 'CONTRACT',
+  SIGNED = 'SIGNED',
   CLOSED = 'CLOSED',
-  CANCELLED = 'CANCELLED',
 }
 
 export class CreateDealDto {
