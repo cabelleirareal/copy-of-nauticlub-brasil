@@ -1,4 +1,5 @@
 import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { DealStatus as PrismaDealStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateDealDto, UpdateDealDto } from './dto/create-deal.dto';
 
@@ -25,17 +26,6 @@ export class DealsService {
               select: { id: true, name: true, avatar: true },
             },
           },
-        },
-        lead: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            phone: true,
-          },
-        },
-        buyer: {
-          select: { id: true, name: true, avatar: true, email: true },
         },
       },
     });
@@ -75,8 +65,9 @@ export class DealsService {
         boatId: dto.boatId,
         leadId: dto.leadId,
         buyerId: dto.buyerId,
-        negotiatedPrice: dto.negotiatedPrice,
-        status: dto.status || 'PENDING',
+        agreedPrice: dto.negotiatedPrice,
+        commissionTotal: (dto.negotiatedPrice * 0.05),
+        status: (dto.status || PrismaDealStatus.NEGOTIATING) as PrismaDealStatus,
       },
       include: {
         boat: {
@@ -88,17 +79,6 @@ export class DealsService {
               select: { id: true, name: true, avatar: true },
             },
           },
-        },
-        lead: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            phone: true,
-          },
-        },
-        buyer: {
-          select: { id: true, name: true, avatar: true, email: true },
         },
       },
     });
@@ -124,12 +104,18 @@ export class DealsService {
       );
     }
 
+    const updateData: any = {};
+    if (dto.status) {
+      updateData.status = dto.status;
+    }
+    if (dto.negotiatedPrice) {
+      updateData.agreedPrice = dto.negotiatedPrice;
+      updateData.commissionTotal = (dto.negotiatedPrice * 0.05);
+    }
+
     return this.prisma.deal.update({
       where: { id },
-      data: {
-        status: dto.status,
-        negotiatedPrice: dto.negotiatedPrice,
-      },
+      data: updateData,
       include: {
         boat: {
           include: {
@@ -140,17 +126,6 @@ export class DealsService {
               select: { id: true, name: true, avatar: true },
             },
           },
-        },
-        lead: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            phone: true,
-          },
-        },
-        buyer: {
-          select: { id: true, name: true, avatar: true, email: true },
         },
       },
     });
