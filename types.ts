@@ -13,14 +13,35 @@ export interface Boat {
   size: number;
   price: number | string;
   type: string;
-  status: BoatStatus;
-  images: string[];
-  specs: {
-    pax: number;
-    engine: string;
-    hours?: number;
-  };
+  status: BoatStatus | string;
+  images?: string[];
+  specs: Record<string, any>;
   featured?: boolean;
+  description?: string;
+  location?: string;
+  marina?: string;
+  ownerId?: string;
+  listingBrokerId?: string;
+  openToPartnerships?: boolean;
+  defaultCommission?: number;
+  viewCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  owner?: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+  listingBroker?: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+  media?: Array<{
+    id: string;
+    url: string;
+    order: number;
+  }>;
 }
 
 export interface BrandPartner {
@@ -32,10 +53,32 @@ export interface BrandPartner {
 }
 
 export interface Lead {
+  id: string;
   name: string;
   email: string;
   phone: string;
-  message: string;
+  message?: string;
   boatId?: string;
-  type: 'INTEREST' | 'SELL' | 'INSPECTION' | 'SHIPYARD';
+  type?: 'INTEREST' | 'SELL' | 'INSPECTION' | 'SHIPYARD' | 'LISTING_BROKER' | 'ORGANIC';
+  status?: string;
+  assignedBrokerId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export enum Role {
+  OWNER = 'OWNER',
+  BROKER = 'BROKER',
+  BUYER = 'BUYER',
+  ADMIN = 'ADMIN',
+}
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+  token: string;
+  refreshToken: string;
+  expiresIn: number;
 }

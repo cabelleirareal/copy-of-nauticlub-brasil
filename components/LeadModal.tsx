@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Lead } from '../types';
+import { useCreateLead } from '../src/hooks/useLeads';
 
 interface LeadModalProps {
   boatId?: string;
@@ -8,18 +8,35 @@ interface LeadModalProps {
 }
 
 const LeadModal: React.FC<LeadModalProps> = ({ boatId, onClose }) => {
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const createLead = useCreateLead();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-      setTimeout(onClose, 2500);
-    }, 1500);
+    await createLead.mutateAsync({
+      ...formData,
+      boatId,
+      type: 'INTEREST',
+    });
+    setSuccess(true);
+    setTimeout(onClose, 2500);
   };
 
   return (
@@ -57,28 +74,59 @@ const LeadModal: React.FC<LeadModalProps> = ({ boatId, onClose }) => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Nome Completo</label>
-                  <input required type="text" className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent" placeholder="Como podemos te chamar?" />
+                  <input
+                    required
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent"
+                    placeholder="Como podemos te chamar?"
+                  />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Telefone (WhatsApp)</label>
-                    <input required type="tel" className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent" placeholder="(00) 00000-0000" />
+                    <input
+                      required
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent"
+                      placeholder="(00) 00000-0000"
+                    />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">E-mail</label>
-                    <input required type="email" className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent" placeholder="exemplo@email.com" />
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent"
+                      placeholder="exemplo@email.com"
+                    />
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-2">Mensagem (Opcional)</label>
-                  <textarea rows={3} className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent resize-none" placeholder="Conte-nos um pouco sobre o que você busca..."></textarea>
+                  <textarea
+                    rows={3}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-accent resize-none"
+                    placeholder="Conte-nos um pouco sobre o que você busca..."
+                  />
                 </div>
 
-                <button 
-                  disabled={loading}
+                <button
+                  disabled={createLead.isPending}
                   className="w-full bg-primary hover:bg-accent text-white font-bold text-xs uppercase tracking-[0.2em] py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  {loading ? (
+                  {createLead.isPending ? (
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     'Solicitar Consultoria'
