@@ -7,18 +7,17 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: 3000,
+      port: 5173,
       host: '0.0.0.0',
     },
     preview: {
-      port: 3000,
+      port: 5173,
       host: '0.0.0.0',
       allowedHosts: 'all'
     },
     plugins: [react()],
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
     },
     resolve: {
       alias: {

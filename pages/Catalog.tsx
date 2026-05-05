@@ -1,7 +1,7 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import BoatCard from '../components/BoatCard';
-import { BOATS } from '../constants';
+import { useBoats } from '../src/hooks/useBoats';
 
 interface CatalogProps {
   onOpenLead: (id?: string) => void;
@@ -10,17 +10,18 @@ interface CatalogProps {
 const Catalog: React.FC<CatalogProps> = ({ onOpenLead }) => {
   const [filterType, setFilterType] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [skip, setSkip] = useState(0);
 
   const types = ['Todos', 'Yachts', 'Cruiser', 'Sport', 'Jet Ski'];
 
-  const filteredBoats = useMemo(() => {
-    return BOATS.filter(boat => {
-      const matchesType = filterType === 'Todos' || boat.type === filterType;
-      const matchesSearch = boat.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                           boat.brand.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesType && matchesSearch;
-    });
-  }, [filterType, searchTerm]);
+  const { data: boatsData, isLoading, error } = useBoats({
+    type: filterType === 'Todos' ? undefined : filterType,
+    search: searchTerm || undefined,
+    skip,
+    limit: 20,
+  });
+
+  const boats = boatsData?.data || [];
 
   return (
     <div className="min-h-screen bg-nauti-bg animate-in fade-in duration-500">
@@ -71,19 +72,30 @@ const Catalog: React.FC<CatalogProps> = ({ onOpenLead }) => {
 
       {/* Results */}
       <div className="max-w-7xl mx-auto px-6 pb-24">
-        {filteredBoats.length > 0 ? (
+        {isLoading ? (
+          <div className="text-center py-32">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <p className="text-slate-400 text-sm mt-4">Carregando embarcações...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-32 bg-white rounded-[3rem] shadow-sm">
+            <span className="material-icons-outlined text-6xl text-red-100 mb-6">error_outline</span>
+            <h3 className="text-xl font-display text-red-600 font-bold mb-2">Erro ao carregar embarcações</h3>
+            <p className="text-slate-400 text-sm">Tente novamente mais tarde.</p>
+          </div>
+        ) : boats && boats.length > 0 ? (
           <>
             <div className="flex justify-between items-center mb-10">
               <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                Mostrando {filteredBoats.length} embarcações
+                Mostrando {boats.length} embarcações
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {filteredBoats.map(boat => (
-                <BoatCard 
-                  key={boat.id} 
-                  boat={boat} 
-                  onInterest={(id) => onOpenLead(id)} 
+              {boats.map(boat => (
+                <BoatCard
+                  key={boat.id}
+                  boat={boat}
+                  onInterest={(id) => onOpenLead(id)}
                 />
               ))}
             </div>
@@ -93,8 +105,8 @@ const Catalog: React.FC<CatalogProps> = ({ onOpenLead }) => {
             <span className="material-icons-outlined text-6xl text-slate-100 mb-6">sailing</span>
             <h3 className="text-xl font-display text-primary font-bold mb-2">Nenhum barco encontrado</h3>
             <p className="text-slate-400 text-sm">Tente ajustar seus filtros ou busca.</p>
-            <button 
-              onClick={() => {setFilterType('Todos'); setSearchTerm('');}}
+            <button
+              onClick={() => {setFilterType('Todos'); setSearchTerm(''); setSkip(0);}}
               className="mt-8 text-accent font-bold text-xs uppercase tracking-widest border-b-2 border-accent pb-1"
             >
               Limpar Filtros
